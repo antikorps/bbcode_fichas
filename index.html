@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crea fichas en BBCode</title>
+  <script src="https://unpkg.com/htmx.org@2.0.4"
+    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+    crossorigin="anonymous"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    main {
+      flex: 1;
+    }
+
+
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      padding: 0;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    main,
+    header {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+
+      border-radius: 5px;
+    }
+
+    #generar-ficha {
+      padding: 20px;
+      border: 1px solid #ccc;
+
+    }
+
+    input[type="url"] {
+      width: -moz-available;
+      width: -webkit-fill-available;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px auto 0 auto;
+      display: block;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .htmx-indicator {
+      display: none;
+    }
+
+    .htmx-request .htmx-indicator {
+      display: inline-block;
+    }
+
+    #ficha {
+      margin-top: 20px;
+    }
+
+    #ficha textarea {
+      width: -moz-available;
+      width: -webkit-fill-available;
+      min-height: 200px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .centrar {
+      text-align: center;
+    }
+
+    .cargando {
+      stroke: #000;
+    }
+
+    .error {
+      color: red;
+    }
+
+
+    footer {
+      background-color: #f0f0f0;
+      /* Un gris claro de fondo */
+      padding: 20px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #555;
+      border-top: 1px solid #ddd;
+      /* Una línea sutil en la parte superior */
+    }
+
+    footer a {
+      color: #007bff;
+      /* Color azul para los enlaces */
+      text-decoration: none;
+      /* Elimina el subrayado por defecto */
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+      /* Subrayado al pasar el ratón */
+    }
+
+    /* Tema scuro */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #121212;
+        color: #e0e0e0;
+      }
+
+      main {
+        border-color: #555;
+      }
+
+      input[type="text"],
+      #ficha textarea {
+        background-color: #333;
+        color: #e0e0e0;
+        border-color: #555;
+      }
+
+      .cargando {
+        stroke: #fff;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1 class="centrar">Generador de Fichas BBCode</h1>
+    <h2 class="centrar">˚｡⋆🎬🎧📚⋆｡˚</h2>
+    <p>🛠️ Crea fichas informativas para tu música, libros, películas y series favoritas. ¡Pega el enlace y obtén el código
+      BBCode listo para compartir!</p>
+    <p>Plataformas admitidas (vendrán más, dame tu sugerencia 🙏):</p>
+    <ul>
+      <li>✅ GoodReads</li>
+      <li>✅ FilmAffinity</li>
+      <li>✅ Discogs</li>
+    </ul>
+  </header>
+
+  <main>
+    <form id="generar-ficha" hx-post="/generar" hx-trigger="submit" hx-target="#ficha" hx-swap="innerHTML"
+      hx-disabled-elt="#generar">
+      <label>
+        <input name="url" id="url" type="url" required placeholder="URL..."/>
+      </label>
+      <button id="generar" type="submit">Generar</button>
+
+      <p class="centrar"><svg class="htmx-indicator cargando" width="24" height="24" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <style>
+            .spinner_V8m1 {
+              transform-origin: center;
+              animation: spinner_zKoa 2s linear infinite
+            }
+
+            .spinner_V8m1 circle {
+              stroke-linecap: round;
+              animation: spinner_YpZS 1.5s ease-in-out infinite
+            }
+
+            @keyframes spinner_zKoa {
+              100% {
+                transform: rotate(360deg)
+              }
+            }
+
+            @keyframes spinner_YpZS {
+              0% {
+                stroke-dasharray: 0 150;
+                stroke-dashoffset: 0
+              }
+
+              47.5% {
+                stroke-dasharray: 42 150;
+                stroke-dashoffset: -16
+              }
+
+              95%,
+              100% {
+                stroke-dasharray: 42 150;
+                stroke-dashoffset: -59
+              }
+            }
+          </style>
+          <g class="spinner_V8m1">
+            <circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3"></circle>
+          </g>
+        </svg></p>
+
+    </form>
+    <div id="ficha"></div>
+  </main>
+  <footer>
+    <p>
+      ¡Aquí no hay cookies ni espías! Este sitio web respeta tu privacidad al 100%. No usamos analíticas ni métricas de
+      ningún tipo.
+    </p>
+    <p>
+      ¿Te interesa el código? ¡Échale un vistazo en GitHub! <a href="https://github.com/antikorps/bbcode_fichas" target="_blank">Ver código fuente</a>
+    </p>
+  </footer>
+
+  <script>
+    function copiarFichaPortapapeles() {
+      const textarea = document.querySelector("#ficha textarea").select();
+      document.execCommand("copy");
+      alert("Ficha copiada al portapapeles");
+    }
+  </script>
+</body>
+
+</html>
